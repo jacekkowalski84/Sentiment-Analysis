@@ -5,8 +5,8 @@ FILES_POSITIVE= glob.glob (r"data\pos\*.txt")
 FILES_NEGATIVE= glob.glob (r"data\neg\*.txt")
 
 
-reviews_positive = []
-reviews_negative = []
+reviews_positive = {}
+reviews_negative = {}
 
 #CREATING LIST OF POSITIVE REVIEWS
 
@@ -16,8 +16,12 @@ for file_positive in FILES_POSITIVE:
         for char in INTERPUNCTION:
             record = record.replace (char, " ")
         record = record.replace ("<br />", " ")
-        record = record.lower().split()
-        reviews_positive.append (record)
+        record = set(record.lower().split())
+        for word in record:
+            if word not in reviews_positive:
+                reviews_positive[word] = 0
+            reviews_positive[word] += 1
+            
 
 #CREATING LIST OF NEGATIVE REVIEWS
 
@@ -27,8 +31,11 @@ for file_negative in FILES_NEGATIVE:
         for char in INTERPUNCTION:
             record = record.replace (char, " ")
         record = record.replace ("<br />", " ")
-        record = record.lower().split()
-        reviews_negative.append (record)
+        record = set(record.lower().split())
+        for word in record:
+            if word not in reviews_negative:
+                reviews_negative[word] = 0
+            reviews_negative [word] += 1
 
 #ASKING USER FOR A NEW REVIEW AND CHANGING IT TO LIST
  
@@ -42,20 +49,8 @@ new_review = new_review.lower().split()
 sentiment_count = []
 
 for new_word in new_review:
-    positive_count = 0
-    negative_count = 0
-    for review_positive in reviews_positive:
-        positive_value = False
-        if new_word in review_positive:
-            positive_value = True
-        if positive_value:
-            positive_count += 1
-    for review_negative in reviews_negative:
-        negative_value = False
-        if new_word in review_negative:
-            negative_value = True
-        if negative_value:
-            negative_count += 1
+    positive_count = reviews_positive.get(new_word, 0)
+    negative_count = reviews_negative.get(new_word, 0)
     if (positive_count + negative_count) == 0:
         print ("Sentiment of: \"", new_word, "\"= 0.00")
     else:
@@ -67,9 +62,8 @@ for new_word in new_review:
 
 sentiment_average = sum(sentiment_count)
 if sentiment_average > 0:
-    print ("This sentence is positive.", end=" ")
+    label = "positive"
 else:
-    print ("This sentence is negative.", end=" ")
+    label = "negative"
 
-print ("Sentiment = ", sentiment_average)
-
+print ("This sentence is ", label , sentiment_average)
