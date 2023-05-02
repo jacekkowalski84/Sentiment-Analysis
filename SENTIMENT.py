@@ -10,8 +10,8 @@ import click
 import glob
 
 
-FILES_POSITIVE= glob.glob (r"PORTFOLIO\Sentiment-Analysis\data\pos\*.txt")
-FILES_NEGATIVE= glob.glob (r"PORTFOLIO\Sentiment-Analysis\data\neg\*.txt")
+FILES_POSITIVE= glob.glob (r"data\pos\*.txt")
+FILES_NEGATIVE= glob.glob (r"data\neg\*.txt")
 
 
 def text_conversion (text: str)-> list[str]:
