@@ -9,20 +9,43 @@ On scale 1-10 the review is considered negative with rating ranging 1-5 and posi
 Single file consists of single review.
 
 # How it works
-The program analyzes positive and negative reviews by checking how many times each word in the reviews is repeated in both databases, and saves the results in two dictionaries.
 
-Then, the program asks the user to enter their own review.
+To run the program 2 arguments mus be given:
+- new review : string
+- word count : integer
 
-The review is broken down into individual words. For each word, the sentiment is calculated based on the number of repetitions in positive and negative reviews.
+For example:
+
+Given the review: 
+
+>*"This was an amazing movie."*
+
+If the "block size" argument = 1, the program will generate sentiment scores for each single word:
+
+>*"This" "was" "an" "amazing" "movie"*
+
+before calculating the average sentiment score for the entire review.
+
+If the "block size" argument = 2, sentiment will be additionaly generated for each consecutive two-word combination in the review:
+
+>*"This was" "was an" "an amazing" "amazing movie"*
+
+making it more precise. The same process can be repeated for larger block sizes.
+
+The program analyzes positive and negative reviews from test data by checking how many times each word or phrase in the reviews is repeated in both databases, and saves the results in two dictionaries.
+
+Then the user review is broken down into individual words or phrases. For each one, the sentiment is calculated based on the number of repetitions in positive and negative reviews.
 
 
-The sentiment of a given word ranges from -1.0 to 1.0 where:
+The sentiment of a given word/phrase ranges from -1.0 to 1.0 where:
 
 result < 0 indicates a negative sentiment for the word
 
 result > 0 indicates a positive sentiment for the word
 
-result = 0 indicates a neutral sentiment for the word or that the word did not appear in any of the reviews.
+result = 0 indicates a neutral sentiment for the word or that  
+
+words that did not appear in any of the reviews are ommited
 
 
 For example:
@@ -37,9 +60,9 @@ The sentiment equals 0.2 which means it's > 0  therefore it's sentiment is posit
 Finally, the program calculates the sentiment of the user's review by calculating the average sentiment of all individual words.
 
 # How to use
-Using one's preferred code editor (e.g. VSCode), user enters keyword 'python' followed by filepath. Once the code's executed, user is asked to enter a review to then calculate its sentiment.
+Using one's preferred code editor (e.g. VSCode), user enters keyword 'python' followed by filepath then the review argument (string) and "block size" argument (integer).
 
 # Code and Resources Used
 Python Version: 3.10.7
 
-Modules: glob
+Modules: click, glob
